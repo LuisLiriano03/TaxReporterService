@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaxReporter.DAL.DBContext;
+using TaxReporter.DAL.Repository.Contract;
 
 namespace TaxReporter.IOC
 {
@@ -10,6 +11,8 @@ namespace TaxReporter.IOC
             services.AddDbContext<TaxReporterDbContext>(options => {
                 options.UseSqlServer(configuration.GetConnectionString("myConnection"));
             });
+
+            services.AddTransient(typeof(IGenericRepository<>), typeof(IGenericRepository<>));
 
         }
 
