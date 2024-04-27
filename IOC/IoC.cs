@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaxReporter.AutoMapper;
+using TaxReporter.Contracts;
 using TaxReporter.DBContext;
+using TaxReporter.Repository;
 using TaxReporter.Repository.Contract;
+using TaxReporter.Services;
 
 namespace TaxReporter.IOC
 {
@@ -13,8 +16,10 @@ namespace TaxReporter.IOC
                 options.UseSqlServer(configuration.GetConnectionString("myConnection"));
             });
 
-            services.AddTransient(typeof(IGenericRepository<>), typeof(IGenericRepository<>));
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            services.AddScoped<IAuthService, AuthService>();
 
         }
 
