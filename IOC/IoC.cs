@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaxReporter.DAL.DBContext;
-using TaxReporter.DAL.Repository.Contract;
+using TaxReporter.AutoMapper;
+using TaxReporter.DBContext;
+using TaxReporter.Repository.Contract;
 
 namespace TaxReporter.IOC
 {
@@ -13,6 +14,7 @@ namespace TaxReporter.IOC
             });
 
             services.AddTransient(typeof(IGenericRepository<>), typeof(IGenericRepository<>));
+            services.AddAutoMapper(typeof(AutoMapperProfile));
 
         }
 
