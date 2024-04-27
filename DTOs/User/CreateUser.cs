@@ -10,7 +10,6 @@
         public string? Email { get; set; }
         public string? UserPassword { get; set; }
         public int? RolId { get; set; }
-        public string? RolDescription { get; set; }
         public string? JobTitle { get; set; }
         public int? IsActive { get; set; }
 
