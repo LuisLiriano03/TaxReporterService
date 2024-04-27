@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace TaxReporter.DAL.Repository.Contract
+namespace TaxReporter.Repository.Contract
 {
     public interface IGenericRepository<TModel> where TModel : class
     {

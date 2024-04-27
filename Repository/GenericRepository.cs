@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using TaxReporter.DAL.DBContext;
-using TaxReporter.DAL.Repository.Contract;
+using TaxReporter.DBContext;
+using TaxReporter.Repository.Contract;
 
-namespace TaxReporter.DAL.Repository
+namespace TaxReporter.Repository
 {
     public class GenericRepository<TModel> : IGenericRepository<TModel> where TModel : class
     {
