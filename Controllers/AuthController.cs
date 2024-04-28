@@ -18,8 +18,8 @@ namespace TaxReporter.Controllers
         }
 
         [HttpPost]
-        [Route("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest login)
+        [Route("login")]
+        public async Task<IActionResult> login([FromBody] LoginRequest login)
         {
             var respuesta = new Response<LoginResponse>();
 
@@ -35,6 +35,27 @@ namespace TaxReporter.Controllers
             }
 
             return Ok(respuesta);
+
+        }
+
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> register([FromBody] CreateUser user)
+        {
+            var response = new Response<GetUser>();
+
+            try
+            {
+                response.status = true;
+                response.value = await _authService.Register(user);
+            }
+            catch (Exception ex)
+            {
+                response.status = false;
+                response.mensage = ex.Message;
+            }
+
+            return Ok(response);
 
         }
 
