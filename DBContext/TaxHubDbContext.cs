@@ -5,13 +5,13 @@ using TaxReporter.Entities;
 
 namespace TaxReporter.DBContext;
 
-public partial class TaxReporterDbContext : DbContext
+public partial class TaxHubDbContext : DbContext
 {
-    public TaxReporterDbContext()
+    public TaxHubDbContext()
     {
     }
 
-    public TaxReporterDbContext(DbContextOptions<TaxReporterDbContext> options)
+    public TaxHubDbContext(DbContextOptions<TaxHubDbContext> options)
         : base(options)
     {
     }
@@ -32,7 +32,7 @@ public partial class TaxReporterDbContext : DbContext
     {
         modelBuilder.Entity<InvoiceInfo>(entity =>
         {
-            entity.HasKey(e => e.InvoiceId).HasName("PK__InvoiceI__D796AAB5A4110C4F");
+            entity.HasKey(e => e.InvoiceId).HasName("PK__InvoiceI__D796AAB5C4B972B7");
 
             entity.ToTable("InvoiceInfo");
 
@@ -42,7 +42,9 @@ public partial class TaxReporterDbContext : DbContext
             entity.Property(e => e.BusinessName)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.ImageUrl).IsUnicode(false);
+            entity.Property(e => e.ImageUrl)
+                .HasMaxLength(500)
+                .IsUnicode(false);
             entity.Property(e => e.IssueDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -67,7 +69,7 @@ public partial class TaxReporterDbContext : DbContext
 
         modelBuilder.Entity<Menu>(entity =>
         {
-            entity.HasKey(e => e.MenuId).HasName("PK__Menu__C99ED23092228191");
+            entity.HasKey(e => e.MenuId).HasName("PK__Menu__C99ED230CB1658E1");
 
             entity.ToTable("Menu");
 
@@ -84,7 +86,7 @@ public partial class TaxReporterDbContext : DbContext
 
         modelBuilder.Entity<MenuRol>(entity =>
         {
-            entity.HasKey(e => e.MenuRolId).HasName("PK__MenuRol__6640AD0C7D10FE2D");
+            entity.HasKey(e => e.MenuRolId).HasName("PK__MenuRol__6640AD0C5B518FE0");
 
             entity.ToTable("MenuRol");
 
@@ -99,7 +101,7 @@ public partial class TaxReporterDbContext : DbContext
 
         modelBuilder.Entity<Rol>(entity =>
         {
-            entity.HasKey(e => e.RolId).HasName("PK__Rol__F92302F1F09F850D");
+            entity.HasKey(e => e.RolId).HasName("PK__Rol__F92302F1E8FEBE14");
 
             entity.ToTable("Rol");
 
@@ -113,25 +115,26 @@ public partial class TaxReporterDbContext : DbContext
 
         modelBuilder.Entity<UserInfo>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__UserInfo__1788CC4CA8B47FA0");
+            entity.HasKey(e => e.UserId).HasName("PK__UserInfo__1788CC4C6B012528");
 
             entity.ToTable("UserInfo");
 
-            entity.Property(e => e.DateOfBirth).HasColumnType("date");
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.FirstName)
+            entity.Property(e => e.FullName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.IdentificationCard)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
             entity.Property(e => e.JobTitle)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.LastName)
+            entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.NumberId).HasColumnName("NumberID");
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
