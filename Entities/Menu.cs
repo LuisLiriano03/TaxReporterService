@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TaxReporter;
+namespace TaxReporter.Entities;
 
 public partial class Menu
 {

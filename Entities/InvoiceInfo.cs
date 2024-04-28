@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using TaxReporter.Entities;
 
-namespace TaxReporter;
+namespace TaxReporter.Entities;
 
 public partial class InvoiceInfo
 {
