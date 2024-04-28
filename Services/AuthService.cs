@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using TaxReporter.Contracts;
 using TaxReporter.DBContext;
 using TaxReporter.DTOs.User;
@@ -58,18 +59,16 @@ namespace TaxReporter.Services
         {
             try
             {
-                var queryUsuario = await _userRepository.VerifyDataExistenceAsync(u => u.Email == email && u.UserPassword == password);
+                var userQuery = await _userRepository.VerifyDataExistenceAsync(u => u.Email == email && u.UserPassword == password);
 
-                if (queryUsuario.FirstOrDefault() == null)
-                    throw new TaskCanceledException("El usuario no existe");
+                if (userQuery.FirstOrDefault() == null)
+                    throw new TaskCanceledException("Error");
 
-                UserInfo devolverUsuario = queryUsuario.Include(rol => rol.Rol).First();
+                UserInfo returnUser = userQuery.Include(rol => rol.Rol).First();
 
-                // Generar el token
-                string token = GenerateToken(devolverUsuario.UserId.ToString()); // Asegúrate de pasar el email u otro identificador único
+                string token = GenerateToken(returnUser.UserId.ToString());
 
-                // Crear la respuesta con el token
-                var loginResponse = _mapper.Map<LoginResponse>(devolverUsuario);
+                var loginResponse = _mapper.Map<LoginResponse>(returnUser);
                 loginResponse.Token = token;
 
                 return loginResponse;
@@ -78,13 +77,32 @@ namespace TaxReporter.Services
             {
                 throw;
             }
+
         }
 
-        public Task<GetUser> Register(CreateUser model)
+        public async Task<GetUser> Register(CreateUser model)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var userCreated = await _userRepository.CreateAsync(_mapper.Map<UserInfo>(model));
 
-        
+                if (userCreated.UserId == 0)
+                    throw new TaskCanceledException("Error");
+
+                var query = await _userRepository.VerifyDataExistenceAsync(u => u.UserId == userCreated.UserId);
+
+                userCreated = query.Include(rol => rol.Rol).First();
+
+                return _mapper.Map<GetUser>(userCreated);
+
+            }
+            catch
+            {
+                throw;
+            }
+
+        }
+ 
     }
+
 }
