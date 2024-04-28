@@ -12,7 +12,7 @@ namespace TaxReporter.IOC
     {
         public static void DependencyInjections(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<TaxReporterDbContext>(options => {
+            services.AddDbContext<TaxHubDbContext>(options => {
                 options.UseSqlServer(configuration.GetConnectionString("myConnection"));
             });
 
@@ -20,6 +20,7 @@ namespace TaxReporter.IOC
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
 
         }
 
