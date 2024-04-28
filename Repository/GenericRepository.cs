@@ -7,9 +7,9 @@ namespace TaxReporter.Repository
 {
     public class GenericRepository<TModel> : IGenericRepository<TModel> where TModel : class
     {
-        private readonly TaxReporterDbContext _dbContext;
+        private readonly TaxHubDbContext _dbContext;
 
-        public GenericRepository(TaxReporterDbContext dbContext)
+        public GenericRepository(TaxHubDbContext dbContext)
         {
             _dbContext = dbContext;
         }
