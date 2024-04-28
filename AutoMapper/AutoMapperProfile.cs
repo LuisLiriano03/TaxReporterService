@@ -16,6 +16,18 @@ namespace TaxReporter.AutoMapper
             CreateMap<Rol, GetRol>().ReverseMap();
             CreateMap<Menu, GetMenu>().ReverseMap();
 
+            CreateMap<UserInfo, CreateUser>()
+                .ForMember(destination =>
+                    destination.IsActive,
+                    options => options.MapFrom(origin => origin.IsActive == true ? 1 : 0)
+                );
+
+            CreateMap<CreateUser, UserInfo>()
+                .ForMember(destination =>
+                    destination.IsActive,
+                    options => options.MapFrom(origin => origin.IsActive == 1 ? true : false)
+                );
+
             CreateMap<UserInfo, GetUser>()
                 .ForMember(destination =>
                     destination.RolDescription,
@@ -31,6 +43,18 @@ namespace TaxReporter.AutoMapper
                     destination.Rol,
                     options => options.Ignore()
                  )
+                .ForMember(destination =>
+                    destination.IsActive,
+                    options => options.MapFrom(origin => origin.IsActive == 1 ? true : false)
+                );
+
+            CreateMap<UserInfo, UpdateUser>()
+                .ForMember(destination =>
+                    destination.IsActive,
+                    options => options.MapFrom(origin => origin.IsActive == true ? 1 : 0)
+                );
+
+            CreateMap<UpdateUser, UserInfo>()
                 .ForMember(destination =>
                     destination.IsActive,
                     options => options.MapFrom(origin => origin.IsActive == 1 ? true : false)
