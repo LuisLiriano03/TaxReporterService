@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TaxReporter.Contracts;
 using TaxReporter.DTOs.User;
+using TaxReporter.Exceptions.Auth;
 using TaxReporter.Utility;
 
 namespace TaxReporter.Controllers
@@ -21,20 +21,21 @@ namespace TaxReporter.Controllers
         [Route("login")]
         public async Task<IActionResult> login([FromBody] LoginRequest login)
         {
-            var respuesta = new Response<LoginResponse>();
+            var response = new Response<LoginResponse>();
 
             try
             {
-                respuesta.status = true;
-                respuesta.value = await _authService.Login(login.Email, login.UserPassword);
+                response.status = true;
+                response.value = await _authService.Login(login.Email, login.UserPassword);
+                throw new SuccessfulLoginException();
             }
             catch (Exception ex)
             {
-                respuesta.status = false;
-                respuesta.mensage = ex.Message;
+                response.status = false;
+                response.message = ex.Message;
             }
 
-            return Ok(respuesta);
+            return Ok(response);
 
         }
 
@@ -48,17 +49,18 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _authService.Register(user);
+                throw new SuccessfulRegistrationException();
             }
             catch (Exception ex)
             {
                 response.status = false;
-                response.mensage = ex.Message;
+                response.message = ex.Message;
             }
 
             return Ok(response);
 
         }
 
-
     }
+
 }

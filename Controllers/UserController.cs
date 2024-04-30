@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaxReporter.Contracts;
 using TaxReporter.DTOs.User;
+using TaxReporter.Exceptions.User;
 using TaxReporter.Utility;
 
 namespace TaxReporter.Controllers
@@ -29,11 +30,12 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _userService.GetAsync();
+                throw new GetUserSuccessfulException();
             }
             catch (Exception ex)
             {
                 response.status = false;
-                response.mensage = ex.Message;
+                response.message = ex.Message;
             }
 
             return Ok(response);
@@ -43,19 +45,20 @@ namespace TaxReporter.Controllers
         [Authorize]
         [HttpPut]
         [Route("UpdateUser")]
-        public async Task<IActionResult> EditCustomers([FromBody] UpdateUser customers)
+        public async Task<IActionResult> EditUser([FromBody] UpdateUser user)
         {
             var response = new Response<bool>();
 
             try
             {
                 response.status = true;
-                response.value = await _userService.UpdateAsync(customers);
+                response.value = await _userService.UpdateAsync(user);
+                throw new UpdateUserSuccessfulException();
             }
             catch (Exception ex)
             {
                 response.status = false;
-                response.mensage = ex.Message;
+                response.message = ex.Message;
             }
 
             return Ok(response);
@@ -65,7 +68,7 @@ namespace TaxReporter.Controllers
         [Authorize]
         [HttpDelete]
         [Route("DeleteUser/{id:int}")]
-        public async Task<IActionResult> DeleteCustomers(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
             var response = new Response<bool>();
 
@@ -73,15 +76,18 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _userService.DeleteAsync(id);
+                throw new DeleteUserSuccessfulException();
             }
             catch (Exception ex)
             {
                 response.status = false;
-                response.mensage = ex.Message;
+                response.message = ex.Message;
             }
 
             return Ok(response);
 
         }
+
     }
+
 }
