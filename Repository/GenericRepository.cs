@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using TaxReporter.DBContext;
+using TaxReporter.Exceptions.Repository;
 using TaxReporter.Repository.Contract;
 
 namespace TaxReporter.Repository
@@ -23,7 +24,7 @@ namespace TaxReporter.Repository
             }
             catch
             {
-                throw new InvalidOperationException("Sorry, there are no available data.");
+                throw new NoDataFoundException();
             }
 
         }
@@ -38,7 +39,7 @@ namespace TaxReporter.Repository
             }
             catch
             {
-                throw new InvalidOperationException("Sorry, there was an error while creating the data.");
+                throw new CreationFailedException();
 
             }
 
@@ -54,7 +55,7 @@ namespace TaxReporter.Repository
             }
             catch
             {
-                throw new InvalidOperationException("Sorry, there was an error while updating the data.");
+                throw new UpdateFailedException();
             }
 
         }
@@ -69,11 +70,10 @@ namespace TaxReporter.Repository
             }
             catch
             {
-                throw new InvalidOperationException("Sorry, there was an error while removing the data.");
+                throw new DeletionFailedException();
             }
 
         }
-
 
         public async Task<IQueryable<TModel>> VerifyDataExistenceAsync(Expression<Func<TModel, bool>> filter = null)
         {
@@ -84,7 +84,7 @@ namespace TaxReporter.Repository
             }
             catch
             {
-                throw new InvalidOperationException("Sorry, there was an error while validating the data existence.");
+                throw new DataExistenceVerificationFailedException();
             }
 
         }
