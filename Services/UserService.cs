@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using TaxReporter.Contracts;
 using TaxReporter.DTOs.User;
 using TaxReporter.Entities;
+using TaxReporter.Exceptions.User;
 using TaxReporter.Repository.Contract;
+using TaxReporter.Validators.User;
 
 namespace TaxReporter.Services
 {
@@ -18,21 +20,19 @@ namespace TaxReporter.Services
             _mapper = mapper;
         }
 
-
         public async Task<List<GetUser>> GetAsync()
         {
             try
             {
-                var queryUsuario = await _userRepository.VerifyDataExistenceAsync();
-                var listaUsuario = queryUsuario.Include(rol => rol.Rol).ToList();
+                var userQuery = await _userRepository.VerifyDataExistenceAsync();
+                var listUser = userQuery.Include(rol => rol.Rol).ToList();
 
-                return _mapper.Map<List<GetUser>>(listaUsuario);
+                return _mapper.Map<List<GetUser>>(listUser);
             }
             catch
             {
-                throw;
+                throw new GetUsersFailedException();
             }
-
 
         }
 
@@ -40,34 +40,42 @@ namespace TaxReporter.Services
         {
             try
             {
+                var validator = new UpdateUserValidator();
+                var validationResult = await validator.ValidateAsync(model);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage);
+                    throw new TaskCanceledException(string.Join(", ", errors));
+                }
+
                 var userModel = _mapper.Map<UserInfo>(model);
+
                 var userFound = await _userRepository.GetEverythingAsync(u => u.UserId == userModel.UserId);
 
-                if (userFound == null)
-                    throw new TaskCanceledException("Error");
+                var userToUpdate = userFound ?? throw new UserNotFoundException();
 
-                userFound.IdentificationCard = userModel.IdentificationCard;
-                userFound.FullName = userModel.FullName;
-                userFound.Age = userModel.Age;
-                userFound.PhoneNumber = userModel.PhoneNumber;
-                userFound.Email = userModel.Email;
-                userFound.UserPassword = userModel.UserPassword;
-                userFound.RolId = userModel.RolId;
-                userFound.JobTitle = userModel.JobTitle;
-                userFound.IsActive = userModel.IsActive;
+                userToUpdate.IdentificationCard = userModel.IdentificationCard;
+                userToUpdate.FullName = userModel.FullName;
+                userToUpdate.Age = userModel.Age;
+                userToUpdate.PhoneNumber = userModel.PhoneNumber;
+                userToUpdate.Email = userModel.Email;
+                userToUpdate.UserPassword = userModel.UserPassword;
+                userToUpdate.RolId = userModel.RolId;
+                userToUpdate.JobTitle = userModel.JobTitle;
+                userToUpdate.IsActive = userModel.IsActive;
 
-                bool response = await _userRepository.UpdateAsync(userFound);
+                bool response = await _userRepository.UpdateAsync(userToUpdate);
 
-                if (!response)
-                    throw new TaskCanceledException("Error");
+                bool isUpdateSuccessful = !response ? throw new UpdateUserFailedException() : response;
 
                 return response;
-
             }
             catch
             {
                 throw;
             }
+
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -76,22 +84,20 @@ namespace TaxReporter.Services
             {
                 var userFound = await _userRepository.GetEverythingAsync(u => u.UserId == id);
 
-                if (userFound == null)
-                    throw new TaskCanceledException("Error");
+                var userDelete = userFound ?? throw new UserNotFoundException();
 
                 bool response = await _userRepository.DeleteAsync(userFound);
 
-                if (!response)
-                    throw new TaskCanceledException("Error");
+                var isDeleteSuccessful = response ? response : throw new DeleteUserFailedException();
 
                 return response;
             }
             catch
             {
-                throw;
+                throw new DeleteUserErrorFailedException();
             }
-        }
 
+        }
         
     }
 

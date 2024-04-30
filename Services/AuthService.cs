@@ -10,7 +10,10 @@ using TaxReporter.Contracts;
 using TaxReporter.DBContext;
 using TaxReporter.DTOs.User;
 using TaxReporter.Entities;
+using TaxReporter.Exceptions.User;
 using TaxReporter.Repository.Contract;
+using TaxReporter.Validators.User;
+using TaxReporter.Validators.Auth;
 
 namespace TaxReporter.Services
 {
@@ -20,7 +23,7 @@ namespace TaxReporter.Services
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
 
-        public AuthService(IGenericRepository<UserInfo> userRepository,IConfiguration configuration ,IMapper mapper)
+        public AuthService(IGenericRepository<UserInfo> userRepository, IConfiguration configuration, IMapper mapper)
         {
             _userRepository = userRepository;
             _configuration = configuration;
@@ -53,25 +56,34 @@ namespace TaxReporter.Services
             string TokenCreated = TokenHandler.WriteToken(TokenConfig);
 
             return TokenCreated;
+
         }
 
         public async Task<LoginResponse> Login(string email, string password)
         {
             try
             {
-                var userQuery = await _userRepository.VerifyDataExistenceAsync(u => u.Email == email && u.UserPassword == password);
+                var loginRequest = new LoginRequest { Email = email, UserPassword = password };
+                var loginRequestValidator = new LoginRequestValidator();
+                var validationResult = loginRequestValidator.Validate(loginRequest);
 
-                if (userQuery.FirstOrDefault() == null)
-                    throw new TaskCanceledException("Error");
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage);
+                    throw new TaskCanceledException($"{string.Join(", ", errors)}");
+                }
+
+                var userQuery = await _userRepository.VerifyDataExistenceAsync(u => u.Email == email && u.UserPassword == password);
+                var user = userQuery.FirstOrDefault() ?? throw new UserNotFoundException();
 
                 UserInfo returnUser = userQuery.Include(rol => rol.Rol).First();
-
                 string token = GenerateToken(returnUser.UserId.ToString());
 
                 var loginResponse = _mapper.Map<LoginResponse>(returnUser);
                 loginResponse.Token = token;
 
                 return loginResponse;
+
             }
             catch
             {
@@ -84,13 +96,19 @@ namespace TaxReporter.Services
         {
             try
             {
-                var userCreated = await _userRepository.CreateAsync(_mapper.Map<UserInfo>(model));
+                var createUserValidator = new CreateUserValidator();
+                var validationResult = createUserValidator.Validate(model);
 
-                if (userCreated.UserId == 0)
-                    throw new TaskCanceledException("Error");
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage);
+                    throw new TaskCanceledException($"{string.Join(", ", errors)}");
+                }
+
+                var userCreated = await _userRepository.CreateAsync(_mapper.Map<UserInfo>(model));
+                var userException = userCreated.UserId == 0 ? throw new UserNotCreatedException() : userCreated;
 
                 var query = await _userRepository.VerifyDataExistenceAsync(u => u.UserId == userCreated.UserId);
-
                 userCreated = query.Include(rol => rol.Rol).First();
 
                 return _mapper.Map<GetUser>(userCreated);
@@ -102,7 +120,7 @@ namespace TaxReporter.Services
             }
 
         }
- 
+
     }
 
 }
