@@ -27,7 +27,9 @@ public partial class InvoiceInfo
 
     public string? ImageUrl { get; set; }
 
-    public int? InvoiceStatus { get; set; }
+    public int? StateId { get; set; }
+
+    public virtual InvoiceState? State { get; set; }
 
     public virtual UserInfo? User { get; set; }
 }

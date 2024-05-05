@@ -12,7 +12,7 @@ namespace TaxReporter.IOC
     {
         public static void DependencyInjections(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<TaxHubDbContext>(options => {
+            services.AddDbContext<InvoiceManagementDbContext>(options => {
                 options.UseSqlServer(configuration.GetConnectionString("myConnection"));
             });
 
