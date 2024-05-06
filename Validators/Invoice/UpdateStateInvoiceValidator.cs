@@ -9,7 +9,7 @@ namespace TaxReporter.Validators.Invoice
         { 
             RuleFor(state => state.StateId)
                 .NotEmpty().WithMessage("The state ID is required")
-                .InclusiveBetween(1, 3).WithMessage("The state must be between 1 and 4");
+                .InclusiveBetween(1, 3).WithMessage("The state must be between 1 and 3");
 
         }
 
