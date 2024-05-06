@@ -30,7 +30,7 @@ namespace TaxReporter.Services
 
                 var invoiceCreated = await _invoiceRepository.CreateAsync(invoiceInfo);
 
-                var invoiceException = invoiceCreated.InvoiceId == (int)UserCreationOption.DoNotCreate ? throw new InvoiceNotCreatedException() : invoiceCreated;
+                var invoiceException = invoiceCreated.InvoiceId == (int)InvoiceCreationOption.DoNotCreate ? throw new InvoiceNotCreatedException() : invoiceCreated;
 
                 var query = await _invoiceRepository.VerifyDataExistenceAsync(u => u.InvoiceId == invoiceCreated.InvoiceId);
 
