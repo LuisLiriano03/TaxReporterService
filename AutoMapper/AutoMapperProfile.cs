@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Options;
+using TaxReporter.DTOs.Invoice;
 using TaxReporter.DTOs.InvoiceState;
 using TaxReporter.DTOs.Menu;
 using TaxReporter.DTOs.Rol;
@@ -17,6 +18,34 @@ namespace TaxReporter.AutoMapper
             CreateMap<Rol, GetRol>().ReverseMap();
             CreateMap<InvoiceState, GetState>().ReverseMap();
             CreateMap<Menu, GetMenu>().ReverseMap();
+
+            CreateMap<InvoiceInfo, CreateInvoice>().ReverseMap();
+            CreateMap<InvoiceInfo, UpdateInvoice>().ReverseMap();
+            CreateMap<InvoiceInfo, UpdateState>().ReverseMap();
+
+
+
+            CreateMap<InvoiceInfo, GetInvoice>()
+                .ForMember(destination =>
+                    destination.UserName,
+                    options => options.MapFrom(origin => origin.User.FullName)
+                    )
+                .ForMember(destination =>
+                    destination.StateName,
+                    options => options.MapFrom(origin => origin.State.StateName)
+                    );
+
+            CreateMap<GetInvoice, InvoiceInfo>()
+                .ForMember(destination =>
+                    destination.User,
+                    options => options.Ignore()
+                 )
+                .ForMember(destination =>
+                    destination.State,
+                    options => options.Ignore()
+                 );
+
+
 
             CreateMap<UserInfo, CreateUser>()
                 .ForMember(destination =>
