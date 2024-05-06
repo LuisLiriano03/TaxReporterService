@@ -1,5 +1,4 @@
 ﻿using TaxReporter.DTOs.Invoice;
-using TaxReporter.DTOs.User;
 
 namespace TaxReporter.Contracts
 {

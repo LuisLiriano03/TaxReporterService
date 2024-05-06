@@ -2,11 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using TaxReporter.Contracts;
 using TaxReporter.DTOs.Invoice;
-using TaxReporter.DTOs.User;
 using TaxReporter.Entities;
-using TaxReporter.Exceptions.User;
 using TaxReporter.Repository.Contract;
-using TaxReporter.Validators.User;
 using TaxReporter.Enums;
 using TaxReporter.Exceptions.Invoice;
 

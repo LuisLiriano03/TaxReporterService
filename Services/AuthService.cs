@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using TaxReporter.Contracts;
-using TaxReporter.DBContext;
 using TaxReporter.DTOs.User;
 using TaxReporter.Entities;
 using TaxReporter.Exceptions.User;

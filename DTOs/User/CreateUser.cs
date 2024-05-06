@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace TaxReporter.DTOs.User
+﻿namespace TaxReporter.DTOs.User
 {
     public class CreateUser
     {

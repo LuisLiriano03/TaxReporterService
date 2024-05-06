@@ -1,6 +1,4 @@
-﻿using TaxReporter.Entities;
-
-namespace TaxReporter.DTOs.Invoice
+﻿namespace TaxReporter.DTOs.Invoice
 {
     public class GetInvoice
     {

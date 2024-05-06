@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace TaxReporter.Entities;
+﻿namespace TaxReporter.Entities;
 
 public partial class Rol
 {

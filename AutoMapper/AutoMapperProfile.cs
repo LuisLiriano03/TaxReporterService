@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Options;
 using TaxReporter.DTOs.Invoice;
 using TaxReporter.DTOs.InvoiceState;
 using TaxReporter.DTOs.Menu;
