@@ -23,6 +23,7 @@ namespace TaxReporter.IOC
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRolService, RolService>();
             services.AddScoped<IInvoiceStateService, InvoiceStateService>();
+            services.AddScoped<IInvoiceService, InvoiceService>();
 
         }
 
