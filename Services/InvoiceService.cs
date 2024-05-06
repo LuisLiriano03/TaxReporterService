@@ -6,6 +6,9 @@ using TaxReporter.Entities;
 using TaxReporter.Repository.Contract;
 using TaxReporter.Enums;
 using TaxReporter.Exceptions.Invoice;
+using TaxReporter.Validators.Invoice;
+using TaxReporter.Validators.User;
+using FluentValidation;
 
 namespace TaxReporter.Services
 {
@@ -24,6 +27,16 @@ namespace TaxReporter.Services
         {
             try
             {
+
+                var validator = new CreateInvoiceValidator();
+                var validationResult = validator.Validate(model);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(error => error.ErrorMessage);
+                    throw new TaskCanceledException($"{string.Join(", ", errors)}");
+                }
+
                 var invoiceInfo = _mapper.Map<InvoiceInfo>(model);
 
                 invoiceInfo.StateId = (int)InvoiceStatus.Pending;
@@ -144,6 +157,16 @@ namespace TaxReporter.Services
         {
             try
             {
+
+                var validator = new UpdateInvoiceValidator();
+                var validationResult = await validator.ValidateAsync(model);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage);
+                    throw new TaskCanceledException(string.Join(", ", errors));
+                }
+
                 var invoiceModel = _mapper.Map<InvoiceInfo>(model);
                 var invoiceFound = await _invoiceRepository.GetEverythingAsync(u => u.InvoiceId == invoiceModel.InvoiceId);
 
@@ -177,6 +200,15 @@ namespace TaxReporter.Services
         {
             try
             {
+                var validator = new UpdateStateInvoiceValidator();
+                var validationResult = await validator.ValidateAsync(model);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = validationResult.Errors.Select(e => e.ErrorMessage);
+                    throw new TaskCanceledException(string.Join(", ", errors));
+                }
+
                 var invoiceModel = _mapper.Map<InvoiceInfo>(model);
 
                 var invoiceFound = await _invoiceRepository.GetEverythingAsync(u => u.InvoiceId == invoiceModel.InvoiceId);
