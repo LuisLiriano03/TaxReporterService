@@ -11,6 +11,7 @@ using TaxReporter.Exceptions.User;
 using TaxReporter.Repository.Contract;
 using TaxReporter.Validators.User;
 using TaxReporter.Validators.Auth;
+using TaxReporter.Enums;
 
 namespace TaxReporter.Services
 {
@@ -103,7 +104,8 @@ namespace TaxReporter.Services
                 }
 
                 var userCreated = await _userRepository.CreateAsync(_mapper.Map<UserInfo>(model));
-                var userException = userCreated.UserId == 0 ? throw new UserNotCreatedException() : userCreated;
+
+                var userException = userCreated.UserId == (int)UserCreationOption.DoNotCreate ? throw new UserNotCreatedException() : userCreated;
 
                 var query = await _userRepository.VerifyDataExistenceAsync(u => u.UserId == userCreated.UserId);
                 userCreated = query.Include(rol => rol.Rol).First();

@@ -30,7 +30,7 @@ namespace TaxReporter.Services
 
                 var invoiceCreated = await _invoiceRepository.CreateAsync(invoiceInfo);
 
-                var invoiceException = invoiceCreated.InvoiceId == 0 ? throw new InvoiceNotCreatedException() : invoiceCreated;
+                var invoiceException = invoiceCreated.InvoiceId == (int)UserCreationOption.DoNotCreate ? throw new InvoiceNotCreatedException() : invoiceCreated;
 
                 var query = await _invoiceRepository.VerifyDataExistenceAsync(u => u.InvoiceId == invoiceCreated.InvoiceId);
 
@@ -108,6 +108,8 @@ namespace TaxReporter.Services
                 var assignedInvoices = await _invoiceRepository
                     .VerifyDataExistenceAsync(invoice => invoice.UserId == userId && invoice.StateId == (int)stateId);
 
+                string noInvoicesFound = assignedInvoices == null || !assignedInvoices.Any() ? throw new GetInvoiceFailedByUserException() : null;
+
                 var invoicesWithInclude = assignedInvoices
                     .Include(user => user.User)
                     .Include(user => user.State);
@@ -118,7 +120,7 @@ namespace TaxReporter.Services
             }
             catch
             {
-                throw new GetInvoiceFailedByUserException();
+                throw;
             }
 
         }
