@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaxReporter.Contracts;
 using TaxReporter.DTOs.Invoice;
-using TaxReporter.DTOs.User;
-using TaxReporter.Exceptions.Auth;
 using TaxReporter.Exceptions.Invoice;
-using TaxReporter.Exceptions.User;
-using TaxReporter.Services;
 using TaxReporter.Utility;
 
 namespace TaxReporter.Controllers
