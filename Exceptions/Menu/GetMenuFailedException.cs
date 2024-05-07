@@ -6,7 +6,7 @@
 
         public GetMenuFailedException() : base()
         {
-            Message = "Failed to get menus";
+            Message = "User does not exist and has no associated menus";
         }
 
     }
