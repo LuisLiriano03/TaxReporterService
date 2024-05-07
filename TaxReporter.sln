@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaxReporter", "TaxReporter.csproj", "{8EEA3D9F-2BA4-4A27-B386-111473B54921}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxReporter.Tests", "..\TaxReporter.Tests\TaxReporter.Tests.csproj", "{990D5A0A-7A26-4606-88A7-170269DF12F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaxReporter.Tests", "..\TaxReporter.Tests\TaxReporter.Tests.csproj", "{990D5A0A-7A26-4606-88A7-170269DF12F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
