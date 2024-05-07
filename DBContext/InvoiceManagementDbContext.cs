@@ -26,7 +26,7 @@ public partial class InvoiceManagementDbContext : DbContext
 
     public virtual DbSet<UserInfo> UserInfos { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
