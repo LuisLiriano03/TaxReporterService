@@ -1,35 +1,36 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaxReporter.Contracts;
-using TaxReporter.DTOs.Rol;
-using TaxReporter.Exceptions.Rol;
+using TaxReporter.DTOs.Menu;
+using TaxReporter.Exceptions.Menu;
 using TaxReporter.Utility;
 
 namespace TaxReporter.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RolController : ControllerBase
+    public class MenuController : ControllerBase
     {
-        private readonly IRolService _rolService;
 
-        public RolController(IRolService rolService) 
-        { 
-            _rolService = rolService;
+        private readonly IMenuService _menuServices;
+
+        public MenuController(IMenuService menuServices)
+        {
+            _menuServices = menuServices;
         }
 
         [Authorize]
         [HttpGet]
-        [Route("GetAllRoles")]
-        public async Task<IActionResult> GetRoles()
+        [Route("GetMenus/{userId}")]
+        public async Task<IActionResult> GetMenus(int userId)
         {
-            var response = new Response<List<GetRol>>();
+            var response = new Response<List<GetMenu>>();
 
             try
             {
                 response.status = true;
-                response.value = await _rolService.GetListAsycn();
-                throw new GetRolSuccessfulException();
+                response.value = await _menuServices.GetListAsycn(userId);
+                throw new GetMenuSuccessfulException();
             }
             catch (Exception ex)
             {
@@ -40,6 +41,7 @@ namespace TaxReporter.Controllers
             return Ok(response);
 
         }
+
 
     }
 

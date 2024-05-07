@@ -138,22 +138,22 @@ namespace TaxReporter.Controllers
         [Route("GetPendingInvoicesFromUser/{userId}")]
         public async Task<IActionResult> GetPendingInvoiceByUser(int userId)
         {
-            var respuesta = new Response<List<GetInvoice>>();
+            var response = new Response<List<GetInvoice>>();
 
             try
             {
-                respuesta.status = true;
-                respuesta.value = await _invoiceService.GetPendingInvoiceByUser(userId);
+                response.status = true;
+                response.value = await _invoiceService.GetPendingInvoiceByUser(userId);
                 throw new GetPendingInvoiceSuccessfulException();
 
             }
             catch (Exception ex)
             {
-                respuesta.status = false;
-                respuesta.message = ex.Message;
+                response.status = false;
+                response.message = ex.Message;
             }
 
-            return Ok(respuesta);
+            return Ok(response);
         }
 
         [Authorize]
@@ -161,21 +161,21 @@ namespace TaxReporter.Controllers
         [Route("GetApprovedInvoicesFromUser/{userId}")]
         public async Task<IActionResult> GetApprovedInvoiceByUser(int userId)
         {
-            var respuesta = new Response<List<GetInvoice>>();
+            var response = new Response<List<GetInvoice>>();
 
             try
             {
-                respuesta.status = true;
-                respuesta.value = await _invoiceService.GetApprovedInvoiceByUser(userId);
+                response.status = true;
+                response.value = await _invoiceService.GetApprovedInvoiceByUser(userId);
                 throw new GetApprovedInvoiceSuccessfulException();
             }
             catch (Exception ex)
             {
-                respuesta.status = false;
-                respuesta.message = ex.Message;
+                response.status = false;
+                response.message = ex.Message;
             }
 
-            return Ok(respuesta);
+            return Ok(response);
         }
 
         [Authorize]
@@ -183,21 +183,21 @@ namespace TaxReporter.Controllers
         [Route("GetUnapprovedInvoicesFromUser/{userId}")]
         public async Task<IActionResult> GetUnapprovedInvoiceByUser(int userId)
         {
-            var respuesta = new Response<List<GetInvoice>>();
+            var response = new Response<List<GetInvoice>>();
 
             try
             {
-                respuesta.status = true;
-                respuesta.value = await _invoiceService.GetUnapprovedInvoiceByUser(userId);
+                response.status = true;
+                response.value = await _invoiceService.GetUnapprovedInvoiceByUser(userId);
                 throw new GetUnapprovedInvoiceSuccessfulException();
             }
             catch (Exception ex)
             {
-                respuesta.status = false;
-                respuesta.message = ex.Message;
+                response.status = false;
+                response.message = ex.Message;
             }
 
-            return Ok(respuesta);
+            return Ok(response);
         }
 
         [Authorize]
