@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaxReporter.Contracts;
 using TaxReporter.DTOs.Dashboard;
-using TaxReporter.Exceptions.DashBoard;
 using TaxReporter.Utility;
 
 namespace TaxReporter.Controllers
@@ -30,7 +28,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _dashBoardInvoiceService.GetDashboardInvoicesCount();
-                throw new GetDashBoardSuccessfulException();
+                response.message = "Dashboard data retrieved successfully";
             }
             catch (Exception ex)
             {

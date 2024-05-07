@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TaxReporter.Contracts;
 using TaxReporter.DTOs.InvoiceState;
-using TaxReporter.Exceptions.InvoiceState;
 using TaxReporter.Utility;
 
 namespace TaxReporter.Controllers
@@ -29,7 +28,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _invoiceStateService.GetListAsycn();
-                throw new GetInvoiceStateSuccessfulException();
+                response.message = "Successful invoice state";
             }
             catch (Exception ex)
             {
@@ -40,5 +39,7 @@ namespace TaxReporter.Controllers
             return Ok(response);
 
         }
+
     }
+
 }

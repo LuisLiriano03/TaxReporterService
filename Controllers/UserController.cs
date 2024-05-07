@@ -29,7 +29,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _userService.GetAsync();
-                throw new GetUserSuccessfulException();
+                response.message = "Successful data";
             }
             catch (Exception ex)
             {
@@ -52,7 +52,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _userService.UpdateAsync(user);
-                throw new UpdateUserSuccessfulException();
+                response.message = "User information updated successfully";
             }
             catch (Exception ex)
             {
@@ -75,7 +75,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _userService.DeleteAsync(id);
-                throw new DeleteUserSuccessfulException();
+                response.message = "User information successfully deleted";
             }
             catch (Exception ex)
             {

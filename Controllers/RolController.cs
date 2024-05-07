@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TaxReporter.Contracts;
 using TaxReporter.DTOs.Rol;
-using TaxReporter.Exceptions.Rol;
 using TaxReporter.Utility;
 
 namespace TaxReporter.Controllers
@@ -29,7 +28,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _rolService.GetListAsycn();
-                throw new GetRolSuccessfulException();
+                response.message = "Successful roles";
             }
             catch (Exception ex)
             {

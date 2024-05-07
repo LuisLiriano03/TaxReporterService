@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaxReporter.Contracts;
 using TaxReporter.DTOs.User;
-using TaxReporter.Exceptions.Auth;
 using TaxReporter.Utility;
 
 namespace TaxReporter.Controllers
@@ -27,7 +26,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _authService.Login(login.Email, login.UserPassword);
-                throw new SuccessfulLoginException();
+                response.message = "User logged in successfully";
             }
             catch (Exception ex)
             {
@@ -49,7 +48,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _authService.Register(user);
-                throw new SuccessfulRegistrationException();
+                response.message = "Registration successful";
             }
             catch (Exception ex)
             {

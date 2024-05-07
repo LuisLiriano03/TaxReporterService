@@ -30,7 +30,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _menuServices.GetListAsycn(userId);
-                throw new GetMenuSuccessfulException();
+                response.message = "Menu items retrieval operation completed successfully";
             }
             catch (Exception ex)
             {

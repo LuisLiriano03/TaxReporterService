@@ -29,7 +29,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _invoiceService.Register(invoice);
-                throw new SuccessfulRegistrationInvoiceException();
+                response.message = "Registration successful";
             }
             catch (Exception ex)
             {
@@ -52,7 +52,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _invoiceService.GetAsync();
-                throw new GetInvoiceSuccessfulException();
+                response.message = "Successful Invoices";
             }
             catch (Exception ex)
             {
@@ -75,7 +75,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _invoiceService.GetPendingInvoicesAsync();
-                throw new GetPendingInvoiceSuccessfulException();
+                response.message = "Successful pending invoices";
             }
             catch (Exception ex)
             {
@@ -98,7 +98,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _invoiceService.GetApprovedInvoicesAsync();
-                throw new GetApprovedInvoiceSuccessfulException();
+                response.message = "Successful approved invoices";
             }
             catch (Exception ex)
             {
@@ -121,7 +121,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _invoiceService.GetUnapprovedInvoicesAsync();
-                throw new GetUnapprovedInvoiceSuccessfulException();
+                response.message = "successful unapproved invoices";
             }
             catch (Exception ex)
             {
@@ -144,8 +144,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _invoiceService.GetPendingInvoiceByUser(userId);
-                throw new GetPendingInvoiceSuccessfulException();
-
+                response.message = "Successful pending invoices";
             }
             catch (Exception ex)
             {
@@ -167,7 +166,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _invoiceService.GetApprovedInvoiceByUser(userId);
-                throw new GetApprovedInvoiceSuccessfulException();
+                response.message = "Successful approved invoices";
             }
             catch (Exception ex)
             {
@@ -189,7 +188,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _invoiceService.GetUnapprovedInvoiceByUser(userId);
-                throw new GetUnapprovedInvoiceSuccessfulException();
+                response.message = "successful unapproved invoices";
             }
             catch (Exception ex)
             {
@@ -211,7 +210,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _invoiceService.UpdateAsync(invoice);
-                throw new UpdateInvoiceSuccessfulException();
+                response.message = "Invoice information updated successfully";
             }
             catch (Exception ex)
             {
@@ -234,7 +233,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _invoiceService.UpdateStateAsync(invoice);
-                throw new UpdateInvoiceStateSuccessfulException();
+                response.message = "Invoice state information updated successfully";
             }
             catch (Exception ex)
             {
@@ -257,7 +256,7 @@ namespace TaxReporter.Controllers
             {
                 response.status = true;
                 response.value = await _invoiceService.DeleteAsync(invoiceId);
-                throw new DeleteInvoiceSuccessfulException();
+                response.message = "Invoice information successfully deleted";
             }
             catch (Exception ex)
             {
